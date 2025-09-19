@@ -22,7 +22,10 @@ var lightChangeBrightnessCmd = &cobra.Command {
 
 		brightness := uint8(brightnessUint)
 
-	
+		if brightness > 100 {
+			log.Fatal("brightness should be between 0 and 100")
+			return nil;
+		}
 
 		GetClient().ChangeBrightness(entityId, brightness)
 		return nil;

@@ -58,9 +58,9 @@ func (c *Client) TurnOffLight(entityID string) error {
 }
 
 func (c *Client) ChangeBrightness(entityID string, brightness uint8) error {
-	
 	// The brighness value in home assistant is 255 for 100% and 2.5 for 1%, hence why we do the calculation.
-	brightnessValue := (brightness / 100) * 255; 
+	rightHand := float32(brightness) / 100
+	brightnessValue := rightHand * 255;
 
 	path := "/api/services/light/turn_on"
 	body := map[string]any {
