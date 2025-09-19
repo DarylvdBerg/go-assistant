@@ -26,7 +26,7 @@ func CreateNewClient(baseUrl, token string) *Client {
 
 // Builds up the necessary basics to do a request.
 func (c *Client) doRequest(method, path string, body any) (*http.Response, error) {
-	url := fmt.Sprintf("%ss", c.BaseUrl, path);
+	url := fmt.Sprintf("%s%s", c.BaseUrl, path);
 	var buf bytes.Buffer
 
 	if body != nil {

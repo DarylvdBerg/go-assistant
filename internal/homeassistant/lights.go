@@ -50,20 +50,38 @@ func (c *Client) ListLights() ([]Light, error) {
 }
 
 func (c *Client) TurnOnLight(entityID string) error {
-	return c.callLightAction("turn_on", entityID)
+	return c.toggleLightState("turn_on", entityID)
 }
 
 func (c *Client) TurnOffLight(entityID string) error {
-	return c.callLightAction("turn_off", entityID)
+	return c.toggleLightState("turn_off", entityID)
+}
+
+func (c *Client) ChangeBrightness(entityID string, brightness uint8) error {
+	
+	// The brighness value in home assistant is 255 for 100% and 2.5 for 1%, hence why we do the calculation.
+	brightnessValue := (brightness / 100) * 255; 
+
+	path := "/api/services/light/turn_on"
+	body := map[string]any {
+		"entity_id": entityID,
+		"brightness": brightnessValue,
+	}
+
+	return c.callAction(path, body);
 }
 
 // Calls the Home assistant API and executes an action available for lights
-func (c *Client) callLightAction(action, entityID string) error {
+func (c *Client) toggleLightState(action, entityID string) error {
 	path := fmt.Sprintf("/api/services/light/%s", action)
 	body := map[string]any {
 		"entity_id": entityID,
 	}
 
+	return c.callAction(path, body)
+}
+
+func (c *Client) callAction(path string, body map[string]any) error {
 	resp, err := c.doRequest("POST", path, body);
 	if err != nil {
 		return err;
