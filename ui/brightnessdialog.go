@@ -32,8 +32,8 @@ var (
 func newBrightnessDialog(light homeassistant.Light) brightnessDialog {
     // Start with current brightness or 50% if unknown
     brightness := 50
-    if light.Brightness != nil {
-        brightness = int(*light.Brightness * 100 / 255) // Convert from 0-255 to 0-100
+    if light.Brightness > 0 {
+        brightness = int(light.Brightness * 100 / 255) // Convert from 0-255 to 0-100
     }
     
     return brightnessDialog{
@@ -77,8 +77,8 @@ func (bd brightnessDialog) Update(msg tea.Msg) (brightnessDialog, tea.Cmd) {
             }
         case "enter":
             // Apply brightness
-            brightnessValue := float64(bd.brightness) * 255 / 100 // Convert to 0-255
-            // client.(bd.light.EntityID, int(brightnessValue))
+            brightnessValue := uint8(float64(bd.brightness) * 255 / 100) // Convert to 0-255 and cast to uint8
+            client.ChangeBrightness(bd.light.EntityID, brightnessValue)
             bd.active = false
             return bd, nil
         case "esc":
@@ -113,7 +113,7 @@ func (bd brightnessDialog) View() string {
         "Controls:\n"+
         "← → or h l: ±1    ↑ ↓ or k j: ±10\n"+
         "Enter: Apply    Esc: Cancel",
-        bd.light.Name,
+        bd.light.FilterValue(), // Using FilterValue() instead of Name
         progressBar,
         bd.brightness,
     )
