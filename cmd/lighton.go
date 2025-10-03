@@ -16,3 +16,8 @@ var lightsOnCmd = &cobra.Command {
 func init() {
 	rootCmd.AddCommand(lightsOnCmd)
 }
+
+func LightsOnWorkLoad(args []string) {
+	entityId := args[0]
+	GetClient().TurnOnLight(entityId);
+} 

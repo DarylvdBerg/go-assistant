@@ -8,7 +8,8 @@ import (
 
 func main() {
 
-	// Setup the client
+	// // TODO: this should go to its own util thingy
+	// // Setup the client
 	config, err := homeassistant.LoadConfig("config.json")
 	if err != nil {
 		log.Fatalf("Failed to load config: %w", err)
@@ -18,4 +19,5 @@ func main() {
 	
 	// Execute
 	cmd.Execute()
-}
+	
+}	

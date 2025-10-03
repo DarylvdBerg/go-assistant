@@ -13,6 +13,10 @@ type Light struct {
 	FriendlyName	string `json:"friendly_name"`
 }
 
+func (l Light) Title() string { return l.FriendlyName }
+func (l Light) Description() string { return "" }
+func (l Light) FilterValue() string { return l.FriendlyName }
+
 func (c *Client) ListLights() ([]Light, error) {
 	resp, err := c.doRequest("GET", "/api/states", nil);
 
