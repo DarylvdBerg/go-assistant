@@ -62,6 +62,7 @@ func (d lightDelegate) Render(w io.Writer, m list.Model, index int, listItem lis
 
 type entityList struct {
 	list list.Model
+    brightnessDialog *brightnessDialog
 }
 
 func InitData(data []homeassistant.Light) entityList {	
@@ -90,6 +91,21 @@ func (e entityList) Init() tea.Cmd {
 }
 
 func (e entityList) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	 if e.brightnessDialog != nil && e.brightnessDialog.IsActive() {
+        var cmd tea.Cmd
+        *e.brightnessDialog, cmd = e.brightnessDialog.Update(msg)
+        
+        // If dialog was closed, remove it
+        if !e.brightnessDialog.IsActive() {
+            // Refresh the light state after brightness change
+            if light := e.GetSelectedLight(); light != nil {
+                // You might want to fetch updated state from API here
+            }
+            e.brightnessDialog = nil
+        }
+        
+        return e, cmd
+    }
 	switch msg := msg.(type) {
 		case tea.KeyMsg:
 
@@ -98,6 +114,12 @@ func (e entityList) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					return e, tea.Quit
 				case "p":
 					return e.toggleLight()
+				  case " ": // Space key for brightness dialog
+                    if light := e.GetSelectedLight(); light != nil && light.State != "unavailable" {
+                        dialog := newBrightnessDialog(*light)
+                        e.brightnessDialog = &dialog
+                        return e, nil
+                    }
 			}
 
 		case tea.WindowSizeMsg: 
@@ -111,7 +133,15 @@ func (e entityList) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (e entityList) View() string {
-	return docStyle.Render(e.list.View())
+	view := docStyle.Render(e.list.View())
+    
+    // Overlay brightness dialog if active
+    if e.brightnessDialog != nil && e.brightnessDialog.IsActive() {
+        dialogView := e.brightnessDialog.View()
+        view = lipgloss.Place(80, 25, lipgloss.Center, lipgloss.Center, view+"\n"+dialogView)
+    }
+    
+    return view
 }
 
 func (e entityList) GetSelectedLight() *homeassistant.Light {

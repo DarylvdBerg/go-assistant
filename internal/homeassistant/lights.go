@@ -11,6 +11,7 @@ type Light struct {
 	EntityID 	string	`json:"entity_id"`
 	State 		string	`json:"state"`
 	FriendlyName	string `json:"friendly_name"`
+	Brightness string
 }
 
 func (l Light) Title() string { return l.FriendlyName }
