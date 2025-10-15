@@ -15,6 +15,8 @@ type lightList struct {
 	list            list.Model
 	keys            *lightListKeyMap
 	brightnessPanel *brightness.BrightnessPanel
+	width           int
+	height          int
 }
 
 var docStyle = lipgloss.NewStyle().Margin(1, 2)
@@ -50,6 +52,17 @@ func (e lightList) Init() tea.Cmd {
 
 func (e lightList) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
+	if e.brightnessPanel != nil && e.brightnessPanel.IsOpen() {
+		var cmd tea.Cmd
+		*e.brightnessPanel, cmd = e.brightnessPanel.Update(msg)
+
+		if !e.brightnessPanel.IsOpen() {
+			e.brightnessPanel = nil
+		}
+
+		return e, cmd
+	}
+
 	switch msg := msg.(type) {
 
 	case tea.KeyMsg:
@@ -64,6 +77,8 @@ func (e lightList) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		h, v := docStyle.GetFrameSize()
 		e.list.SetSize(msg.Width-h, msg.Height-v)
+		e.width = msg.Width
+		e.height = msg.Height
 	}
 
 	var cmd tea.Cmd
@@ -77,7 +92,7 @@ func (e lightList) View() string {
 
 	if e.brightnessPanel != nil && e.brightnessPanel.IsOpen() {
 		brightnessPanelView := e.brightnessPanel.View()
-		view = lipgloss.Place(40, 15, lipgloss.Center, lipgloss.Center, brightnessPanelView)
+		view = lipgloss.Place(e.width, e.height, lipgloss.Center, lipgloss.Center, brightnessPanelView)
 	}
 
 	return view

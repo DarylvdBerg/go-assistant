@@ -8,16 +8,10 @@ import (
 	"time"
 )
 
-type Client struct {
-	BaseUrl string
-	Token string
-	HTTPClient *http.Client
-}
-
 func CreateNewClient(baseUrl, token string) *Client {
-	return &Client {
+	return &Client{
 		BaseUrl: baseUrl,
-		Token: token,
+		Token:   token,
 		HTTPClient: &http.Client{
 			Timeout: 10 * time.Second,
 		},
@@ -26,7 +20,7 @@ func CreateNewClient(baseUrl, token string) *Client {
 
 // Builds up the necessary basics to do a request.
 func (c *Client) doRequest(method, path string, body any) (*http.Response, error) {
-	url := fmt.Sprintf("%s%s", c.BaseUrl, path);
+	url := fmt.Sprintf("%s%s", c.BaseUrl, path)
 	var buf bytes.Buffer
 
 	if body != nil {
@@ -35,13 +29,13 @@ func (c *Client) doRequest(method, path string, body any) (*http.Response, error
 		}
 	}
 
-	req, err := http.NewRequest(method, url, &buf);
+	req, err := http.NewRequest(method, url, &buf)
 	if err != nil {
-		return nil, err;
+		return nil, err
 	}
 
 	req.Header.Set("Authorization", "Bearer "+c.Token)
 	req.Header.Set("Content-Type", "application/json")
-	
-	return c.HTTPClient.Do(req);
+
+	return c.HTTPClient.Do(req)
 }

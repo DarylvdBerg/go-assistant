@@ -72,11 +72,23 @@ func mapToLight(entity map[string]any) *models.Light {
 		FriendlyName: name,
 	}
 
-	if brightness, ok := attrs["brightness"].(int); ok {
-		light.Brightness = brightness
+	if brightness, ok := attrs["brightness"]; ok {
+		light.Brightness = haBrightnessToPercent(brightness)
 	}
 
 	return light
+}
+
+// Converts Home Assistant brightness (0–255) to percentage (0–100)
+func haBrightnessToPercent(brightnessValue any) int {
+	switch v := brightnessValue.(type) {
+	case float64:
+		return int(v / 255 * 100)
+	case int:
+		return int(float64(v) / 255 * 100)
+	default:
+		return 0
+	}
 }
 
 func (ha *HaClient) ToggleLightState(entityID string, action string) error {

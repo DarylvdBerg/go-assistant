@@ -10,16 +10,18 @@ import (
 )
 
 type BrightnessPanel struct {
-	light      *models.Light
-	brightness int
-	isOpen     bool
+	light  *models.Light
+	isOpen bool
+	keys   *brightnessKeyBindings
+	width  int
+	height int
 }
 
 func NewBrightnessPanel(light models.Light) *BrightnessPanel {
 	return &BrightnessPanel{
-		light:      &light,
-		brightness: 50,
-		isOpen:     true,
+		light:  &light,
+		isOpen: true,
+		keys:   NewBrightnessKeyBindings(),
 	}
 }
 
@@ -29,6 +31,17 @@ func (b BrightnessPanel) Init() tea.Cmd {
 
 func (b BrightnessPanel) Update(msg tea.Msg) (BrightnessPanel, tea.Cmd) {
 	if !b.isOpen {
+		return b, nil
+	}
+
+	switch msg := msg.(type) {
+
+	case tea.KeyMsg:
+		return b.keys.HandleKeyPress(msg, b)
+
+	case tea.WindowSizeMsg:
+		b.height = msg.Height
+		b.width = msg.Width
 		return b, nil
 	}
 
@@ -42,28 +55,28 @@ func (b BrightnessPanel) View() string {
 
 	// Create progress bar
 	progressWidth := 40
-	filled := int(float64(progressWidth) * float64(b.brightness) / 100)
+	filled := int(float64(progressWidth) * float64(b.light.Brightness) / 100)
 
 	progressBar := ""
 	for i := 0; i < progressWidth; i++ {
 		if i < filled {
 			progressBar += style.DefaultProgressStyle().Render("█")
 		} else {
-			progressBar += style.DefaultPanelStyle().Render("░")
+			progressBar += style.DefaultProgressBackgroundStyle().Render("░")
 		}
 	}
 
 	content := fmt.Sprintf(
 		"Set Brightness for: %s\n\n%s\n\nBrightness: %d%%\n\n"+
 			"Controls:\n"+
-			"← → or h l: ±1    ↑ ↓ or k j: ±10\n"+
+			"← → ±10    ↑ ↓ or k j: ±5\n"+
 			"Enter: Apply    Esc: Cancel",
 		b.light.FilterValue(), // Using FilterValue() instead of Name
 		progressBar,
-		b.brightness,
+		b.light.Brightness,
 	)
 
-	return lipgloss.Place(40, 15, lipgloss.Center, lipgloss.Center,
+	return lipgloss.Place(b.width, b.height, lipgloss.Center, lipgloss.Center,
 		style.DefaultPanelStyle().Render(content))
 }
 
