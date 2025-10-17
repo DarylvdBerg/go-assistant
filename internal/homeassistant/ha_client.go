@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-assistant/internal/client"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -17,7 +18,13 @@ func (hc *HaClient) callAction(path string, body map[string]any) error {
 		return err
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Println(err)
+		}
+
+	}(resp.Body)
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
 		b, _ := io.ReadAll(resp.Body)
 		return fmt.Errorf("Home Assistant error: %s", string(b))

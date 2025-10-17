@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 )
 
@@ -16,7 +17,12 @@ func LoadConfig(path string) (*Config, error) {
 		return nil, err
 	}
 
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.Fatalf("failed to close file: %s", err)
+		}
+	}(file)
 
 	var config Config
 	if err := json.NewDecoder(file).Decode(&config); err != nil {

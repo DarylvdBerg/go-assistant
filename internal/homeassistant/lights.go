@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"go-assistant/shared/models"
+	"io"
+	"log"
 )
 
 const (
@@ -25,7 +27,12 @@ func (hc *HaClient) ListLights() ([]models.Light, error) {
 	}
 
 	// Defer to close till the method completed execution.
-	defer res.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}(res.Body)
 
 	// Since we cannot call specifically entities for lights, we'll have to filter.
 	var allEntities []map[string]any
