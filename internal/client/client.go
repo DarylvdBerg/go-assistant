@@ -22,11 +22,13 @@ func setClient(c *Client) {
 }
 
 func GetClient() *Client {
+	if client == nil {
+		client = newClient()
+	}
 	return client
 }
 
-func NewClient() *Client {
-
+func newClient() *Client {
 	config, err := LoadConfig()
 	if err != nil {
 		log.Fatal("Failed to load config", err)

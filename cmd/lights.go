@@ -12,7 +12,7 @@ import (
 
 var lightsCmd = &cobra.Command{
 	Use:   "lights",
-	Short: "Get a list of configured lights in your Home Assistant",
+	Short: "💡 Control your home-assistant configured lights. You'll be able to turn them on/off and adjust the brightness.",
 	Run: func(command *cobra.Command, args []string) {
 		lightsWorkload()
 	},
