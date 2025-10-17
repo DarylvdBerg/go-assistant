@@ -2,7 +2,7 @@ package homeassistant
 
 import (
 	"fmt"
-	"go-assistant-cli/internal/client"
+	"go-assistant/internal/client"
 	"io"
 	"net/http"
 )

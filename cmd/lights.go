@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"go-assistant-cli/internal/homeassistant"
-	"go-assistant-cli/ui/lights"
+	"go-assistant/internal/homeassistant"
+	"go-assistant/ui/lights"
 	"os"
 
 	tea "github.com/charmbracelet/bubbletea"

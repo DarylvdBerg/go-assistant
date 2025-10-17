@@ -1,9 +1,9 @@
 package lights
 
 import (
-	"go-assistant-cli/shared/models"
-	"go-assistant-cli/ui/brightness"
-	"go-assistant-cli/ui/style"
+	"go-assistant/shared/models"
+	"go-assistant/ui/brightness"
+	"go-assistant/ui/style"
 
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"

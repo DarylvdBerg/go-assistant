@@ -1,8 +1,8 @@
 package brightness
 
 import (
-	"go-assistant-cli/internal/homeassistant"
-	"go-assistant-cli/shared"
+	"go-assistant/internal/homeassistant"
+	"go-assistant/shared"
 	"log"
 
 	"github.com/charmbracelet/bubbles/key"

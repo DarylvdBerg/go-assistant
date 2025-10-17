@@ -1,8 +1,8 @@
 package main
 
 import (
-	"go-assistant-cli/cmd"
-	"go-assistant-cli/internal/client"
+	"go-assistant/cmd"
+	"go-assistant/internal/client"
 )
 
 func main() {

@@ -3,7 +3,7 @@ package homeassistant
 import (
 	"encoding/json"
 	"fmt"
-	"go-assistant-cli/shared/models"
+	"go-assistant/shared/models"
 )
 
 const (

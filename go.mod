@@ -1,4 +1,4 @@
-module go-assistant-cli
+module go-assistant
 
 go 1.24.7
 

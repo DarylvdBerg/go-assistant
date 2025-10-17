@@ -2,8 +2,8 @@ package style
 
 import (
 	"fmt"
-	"go-assistant-cli/shared"
-	"go-assistant-cli/shared/models"
+	"go-assistant/shared"
+	"go-assistant/shared/models"
 	"io"
 
 	"github.com/charmbracelet/bubbles/list"

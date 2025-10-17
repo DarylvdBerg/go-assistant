@@ -1,10 +1,10 @@
 package lights
 
 import (
-	"go-assistant-cli/internal/homeassistant"
-	"go-assistant-cli/shared"
-	"go-assistant-cli/shared/models"
-	"go-assistant-cli/ui/brightness"
+	"go-assistant/internal/homeassistant"
+	"go-assistant/shared"
+	"go-assistant/shared/models"
+	"go-assistant/ui/brightness"
 	"log"
 
 	"github.com/charmbracelet/bubbles/key"

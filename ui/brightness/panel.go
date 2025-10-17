@@ -2,8 +2,8 @@ package brightness
 
 import (
 	"fmt"
-	"go-assistant-cli/shared/models"
-	"go-assistant-cli/ui/style"
+	"go-assistant/shared/models"
+	"go-assistant/ui/style"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
