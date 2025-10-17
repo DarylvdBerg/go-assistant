@@ -69,9 +69,9 @@ func (b BrightnessPanel) View() string {
 	content := fmt.Sprintf(
 		"Set Brightness for: %s\n\n%s\n\nBrightness: %d%%\n\n"+
 			"Controls:\n"+
-			"← → ±10    ↑ ↓ or k j: ±5\n"+
+			"← → ±10    k j: ±5\n"+
 			"Enter: Apply    Esc: Cancel",
-		b.light.FilterValue(), // Using FilterValue() instead of Name
+		b.light.FilterValue(),
 		progressBar,
 		b.light.Brightness,
 	)

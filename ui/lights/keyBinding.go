@@ -42,6 +42,14 @@ func (l *lightListKeyMap) HandleKeyPress(input tea.KeyMsg, lightList lightList) 
 		return lightList, nil
 	case key.Matches(input, l.brightnessControl):
 		light := lightList.getSelectedLight()
+		if light == nil {
+			return lightList, nil
+		}
+
+		if light.State == shared.LightStateUnavailable {
+			return lightList, nil
+		}
+
 		dialog := brightness.NewBrightnessPanel(*light)
 		lightList.brightnessPanel = dialog
 		return lightList, nil
