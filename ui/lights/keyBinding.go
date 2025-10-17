@@ -5,6 +5,7 @@ import (
 	"go-assistant-cli/shared"
 	"go-assistant-cli/shared/models"
 	"go-assistant-cli/ui/brightness"
+	"log"
 
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
@@ -37,8 +38,8 @@ func (l *lightListKeyMap) HandleKeyPress(input tea.KeyMsg, lightList lightList) 
 	switch {
 	case key.Matches(input, l.toggleLight):
 		light := lightList.getSelectedLight()
-		updatedState := toggleLight(light)
-		lightList.updateLightState(light.EntityID, updatedState)
+		toggleLight(light)
+		lightList.updateLightState(light)
 		return lightList, nil
 	case key.Matches(input, l.brightnessControl):
 		light := lightList.getSelectedLight()
@@ -51,6 +52,8 @@ func (l *lightListKeyMap) HandleKeyPress(input tea.KeyMsg, lightList lightList) 
 		}
 
 		dialog := brightness.NewBrightnessPanel(*light)
+		dialog.OnApply = lightList.updateLightState
+
 		lightList.brightnessPanel = dialog
 		return lightList, nil
 	}
@@ -60,28 +63,30 @@ func (l *lightListKeyMap) HandleKeyPress(input tea.KeyMsg, lightList lightList) 
 	return lightList, cmd
 }
 
-func toggleLight(light *models.Light) string {
+func toggleLight(light *models.Light) {
 	var action string
-	var newState string
 	if light.State == shared.LightStateOn {
 		action = TurnOffAction
-		newState = shared.LightStateOff
+		light.State = shared.LightStateOff
 	} else {
 		action = TurnOnAction
-		newState = shared.LightStateOn
+		light.State = shared.LightStateOn
 	}
 
-	homeassistant.GetClient().ToggleLightState(light.EntityID, action)
-	return newState
+	err := homeassistant.GetClient().ToggleLightState(light.EntityID, action)
+	if err != nil {
+		log.Fatal("failed to toggle light state: ", err)
+	}
 }
 
-func (e *lightList) updateLightState(entityID string, newState string) {
+func (e *lightList) updateLightState(updatedLight *models.Light) {
 	items := e.list.Items()
 	for i, item := range items {
 		if light, ok := item.(models.Light); ok {
-			if light.EntityID == entityID {
+			if light.EntityID == updatedLight.EntityID {
 				// Update the light's state
-				light.State = newState
+				light.State = updatedLight.State
+				light.Brightness = updatedLight.Brightness
 				// Replace the item in the list
 				e.list.SetItem(i, light)
 				break

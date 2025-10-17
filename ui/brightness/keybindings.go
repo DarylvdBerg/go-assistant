@@ -2,6 +2,8 @@ package brightness
 
 import (
 	"go-assistant-cli/internal/homeassistant"
+	"go-assistant-cli/shared"
+	"log"
 
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
@@ -54,7 +56,15 @@ func (b brightnessKeyBindings) HandleKeyPress(input tea.KeyMsg, panel Brightness
 		panel.isOpen = false
 		return panel, nil
 	case key.Matches(input, b.applyBrightness):
-		homeassistant.GetClient().ChangeBrightness(panel.light.EntityID, uint8(panel.light.Brightness))
+		err := homeassistant.GetClient().ChangeBrightness(panel.light.EntityID, uint8(panel.light.Brightness))
+		if err != nil {
+			log.Printf("failed to change brightness: %v", err)
+		}
+
+		panel.light.State = shared.LightStateOn
+		if panel.OnApply != nil {
+			panel.OnApply(panel.light)
+		}
 		panel.isOpen = false
 		return panel, nil
 	case key.Matches(input, b.increaseByTen):

@@ -10,11 +10,12 @@ import (
 )
 
 type BrightnessPanel struct {
-	light  *models.Light
-	isOpen bool
-	keys   *brightnessKeyBindings
-	width  int
-	height int
+	light   *models.Light
+	isOpen  bool
+	keys    *brightnessKeyBindings
+	width   int
+	height  int
+	OnApply func(*models.Light)
 }
 
 func NewBrightnessPanel(light models.Light) *BrightnessPanel {
