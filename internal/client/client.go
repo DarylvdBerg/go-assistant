@@ -27,9 +27,17 @@ func GetClient() *Client {
 
 func NewClient() *Client {
 
-	config, err := LoadConfig("config.json")
+	config, err := LoadConfig()
 	if err != nil {
 		log.Fatal("Failed to load config", err)
+	}
+
+	if config.BaseUrl == "" {
+		log.Fatal("Unable to create client: home_assistant_endpoint is empty or missing")
+	}
+
+	if config.Token == "" {
+		log.Fatal("Unable to create client: token is empty or missing")
 	}
 
 	client := &Client{
