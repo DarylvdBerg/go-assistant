@@ -11,7 +11,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-type lightListKeyMap struct {
+type KeyBindings struct {
 	toggleLight       key.Binding
 	brightnessControl key.Binding
 }
@@ -21,8 +21,8 @@ const (
 	TurnOffAction = "turn_" + shared.LightStateOff
 )
 
-func NewLightListKeyMap() *lightListKeyMap {
-	return &lightListKeyMap{
+func NewLightListKeyMap() *KeyBindings {
+	return &KeyBindings{
 		toggleLight: key.NewBinding(
 			key.WithKeys("p"),
 			key.WithHelp("p", "Toggle light on/off"),
@@ -34,7 +34,7 @@ func NewLightListKeyMap() *lightListKeyMap {
 	}
 }
 
-func (l *lightListKeyMap) HandleKeyPress(input tea.KeyMsg, lightList lightList) (tea.Model, tea.Cmd) {
+func (l *KeyBindings) HandleKeyPress(input tea.KeyMsg, lightList LightList) (tea.Model, tea.Cmd) {
 	switch {
 	case key.Matches(input, l.toggleLight):
 		light := lightList.getSelectedLight()
@@ -79,7 +79,7 @@ func toggleLight(light *models.Light) {
 	}
 }
 
-func (e *lightList) updateLightState(updatedLight *models.Light) {
+func (e *LightList) updateLightState(updatedLight *models.Light) {
 	items := e.list.Items()
 	for i, item := range items {
 		if light, ok := item.(models.Light); ok {

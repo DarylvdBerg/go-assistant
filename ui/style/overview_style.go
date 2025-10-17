@@ -5,6 +5,7 @@ import (
 	"go-assistant/shared"
 	"go-assistant/shared/models"
 	"io"
+	"log"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -51,5 +52,8 @@ func (d OverviewStyleDelegate) Render(w io.Writer, m list.Model, index int, list
 		style = style.Underline(true)
 	}
 
-	fmt.Fprintf(w, "%s %s", cursor, style.Render(light.FilterValue()))
+	_, err := fmt.Fprintf(w, "%s %s", cursor, style.Render(light.FilterValue()))
+	if err != nil {
+		log.Fatalf("failed to style item %d: %v", index, err)
+	}
 }

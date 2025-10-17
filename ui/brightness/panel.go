@@ -9,28 +9,28 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-type BrightnessPanel struct {
+type Panel struct {
 	light   *models.Light
 	isOpen  bool
-	keys    *brightnessKeyBindings
+	keys    *KeyBindings
 	width   int
 	height  int
 	OnApply func(*models.Light)
 }
 
-func NewBrightnessPanel(light models.Light) *BrightnessPanel {
-	return &BrightnessPanel{
+func NewBrightnessPanel(light models.Light) *Panel {
+	return &Panel{
 		light:  &light,
 		isOpen: true,
 		keys:   NewBrightnessKeyBindings(),
 	}
 }
 
-func (b BrightnessPanel) Init() tea.Cmd {
+func (b Panel) Init() tea.Cmd {
 	return nil
 }
 
-func (b BrightnessPanel) Update(msg tea.Msg) (BrightnessPanel, tea.Cmd) {
+func (b Panel) Update(msg tea.Msg) (Panel, tea.Cmd) {
 	if !b.isOpen {
 		return b, nil
 	}
@@ -49,7 +49,7 @@ func (b BrightnessPanel) Update(msg tea.Msg) (BrightnessPanel, tea.Cmd) {
 	return b, nil
 }
 
-func (b BrightnessPanel) View() string {
+func (b Panel) View() string {
 	if !b.isOpen {
 		return ""
 	}
@@ -81,6 +81,6 @@ func (b BrightnessPanel) View() string {
 		style.DefaultPanelStyle().Render(content))
 }
 
-func (b BrightnessPanel) IsOpen() bool {
+func (b Panel) IsOpen() bool {
 	return b.isOpen
 }

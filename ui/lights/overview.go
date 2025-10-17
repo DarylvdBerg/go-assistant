@@ -11,19 +11,19 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-type lightList struct {
+type LightList struct {
 	list            list.Model
-	keys            *lightListKeyMap
-	brightnessPanel *brightness.BrightnessPanel
+	keys            *KeyBindings
+	brightnessPanel *brightness.Panel
 	width           int
 	height          int
 }
 
 var docStyle = lipgloss.NewStyle().Margin(1, 2)
 
-func InitLightOverview(lights []models.Light) lightList {
-	list := initializeLightList(lights)
-	el := lightList{list: list, keys: NewLightListKeyMap()}
+func InitLightOverview(lights []models.Light) LightList {
+	lightData := initializeLightList(lights)
+	el := LightList{list: lightData, keys: NewLightListKeyMap()}
 
 	el.list.Title = "Available lights"
 	el.list.AdditionalFullHelpKeys = func() []key.Binding {
@@ -46,11 +46,11 @@ func initializeLightList(lights []models.Light) list.Model {
 	return list.New(items, style.NewOverviewStyleDelegate(), 0, 0)
 }
 
-func (e lightList) Init() tea.Cmd {
+func (e LightList) Init() tea.Cmd {
 	return nil
 }
 
-func (e lightList) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (e LightList) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	if e.brightnessPanel != nil && e.brightnessPanel.IsOpen() {
 		var cmd tea.Cmd
@@ -87,7 +87,7 @@ func (e lightList) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 // View implements tea.Model.
-func (e lightList) View() string {
+func (e LightList) View() string {
 	view := docStyle.Render(e.list.View())
 
 	if e.brightnessPanel != nil && e.brightnessPanel.IsOpen() {
@@ -98,7 +98,7 @@ func (e lightList) View() string {
 	return view
 }
 
-func (e lightList) getSelectedLight() *models.Light {
+func (e LightList) getSelectedLight() *models.Light {
 	selectedItem := e.list.SelectedItem()
 	if selectedItem == nil {
 		return nil

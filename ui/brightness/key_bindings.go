@@ -9,7 +9,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-type brightnessKeyBindings struct {
+type KeyBindings struct {
 	applyBrightness key.Binding
 	cancel          key.Binding
 	increaseByTen   key.Binding
@@ -18,8 +18,8 @@ type brightnessKeyBindings struct {
 	decreaseByFive  key.Binding
 }
 
-func NewBrightnessKeyBindings() *brightnessKeyBindings {
-	return &brightnessKeyBindings{
+func NewBrightnessKeyBindings() *KeyBindings {
+	return &KeyBindings{
 		applyBrightness: key.NewBinding(
 			key.WithKeys("enter"),
 			key.WithHelp("enter", "Apply brightness"),
@@ -46,7 +46,7 @@ func NewBrightnessKeyBindings() *brightnessKeyBindings {
 		),
 	}
 }
-func (b brightnessKeyBindings) HandleKeyPress(input tea.KeyMsg, panel BrightnessPanel) (BrightnessPanel, tea.Cmd) {
+func (b KeyBindings) HandleKeyPress(input tea.KeyMsg, panel Panel) (Panel, tea.Cmd) {
 	if !panel.isOpen {
 		return panel, nil
 	}
