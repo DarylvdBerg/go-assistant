@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	BaseUrl string `json:"base_url"`
+	BaseUrl string `json:"home_assistant_endpoint"`
 	Token   string `json:"token"`
 }
 
