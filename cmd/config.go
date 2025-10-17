@@ -16,12 +16,12 @@ var configCmd = &cobra.Command{
 	Run: func(command *cobra.Command, args []string) {
 		configDir, err := os.UserConfigDir()
 		if err != nil {
-			log.Fatalf("failed to get user config dir: %s", err)
+			log.Fatalf("failed to get user initialize dir: %s", err)
 		}
 
 		configPath := filepath.Join(configDir, "go-assistant", "config.json")
 
-		// Ensure the config file exists (optional)
+		// Ensure the initialize file exists (optional)
 		if _, err := os.Stat(configPath); os.IsNotExist(err) {
 			fmt.Printf("Config file does not exist at %s\n", configPath)
 			return
