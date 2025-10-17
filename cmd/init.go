@@ -9,7 +9,7 @@ import (
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "🔧 Initialize the configuration file in the user configuration folder.",
+	Short: "☘️ Initialize the configuration file in the user configuration folder.",
 	Run: func(cmd *cobra.Command, args []string) {
 		initialize.CreateConfigIfNotExists()
 		fmt.Println("Configuration file initialized.")

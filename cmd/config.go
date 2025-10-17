@@ -12,7 +12,7 @@ import (
 
 var configCmd = &cobra.Command{
 	Use:   "configure",
-	Short: "Edit the configuration for go-assistant",
+	Short: "🔧 Edit the configuration for go-assistant",
 	Run: func(command *cobra.Command, args []string) {
 		configDir, err := os.UserConfigDir()
 		if err != nil {
