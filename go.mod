@@ -1,6 +1,6 @@
 module go-assistant
 
-go 1.24.7
+go 1.25.3
 
 require (
 	github.com/charmbracelet/lipgloss v1.1.0

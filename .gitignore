@@ -35,3 +35,6 @@ config.json
 .DS_Store
 
 .idea/
+
+# ignore build binary
+go-assistant
