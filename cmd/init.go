@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"go-assistant/internal/initialize"
+
+	"github.com/DarylvdBerg/go-assistant/internal/initialize"
 
 	"github.com/spf13/cobra"
 )

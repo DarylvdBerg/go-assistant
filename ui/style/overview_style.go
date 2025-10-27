@@ -2,10 +2,11 @@ package style
 
 import (
 	"fmt"
-	"go-assistant/shared"
-	"go-assistant/shared/models"
 	"io"
 	"log"
+
+	"github.com/DarylvdBerg/go-assistant/shared"
+	"github.com/DarylvdBerg/go-assistant/shared/models"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"

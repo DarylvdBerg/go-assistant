@@ -1,9 +1,10 @@
 package brightness
 
 import (
-	"go-assistant/internal/homeassistant"
-	"go-assistant/shared"
 	"log"
+
+	"github.com/DarylvdBerg/go-assistant/internal/homeassistant"
+	"github.com/DarylvdBerg/go-assistant/shared"
 
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"

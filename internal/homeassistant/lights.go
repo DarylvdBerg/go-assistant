@@ -3,9 +3,10 @@ package homeassistant
 import (
 	"encoding/json"
 	"fmt"
-	"go-assistant/shared/models"
 	"io"
 	"log"
+
+	"github.com/DarylvdBerg/go-assistant/shared/models"
 )
 
 const (

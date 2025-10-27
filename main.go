@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-assistant/cmd"
+	"github.com/DarylvdBerg/go-assistant/cmd"
 )
 
 func main() {
