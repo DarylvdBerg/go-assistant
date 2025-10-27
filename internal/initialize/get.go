@@ -12,7 +12,7 @@ func GetConfigPath() string {
 		log.Fatalf("Unable to get user config dir: %s", err)
 	}
 
-	applicationConfigPath := fmt.Sprintf("%s/github.com/DarylvdBerg/go-assistant/config.json", userConfigDir)
+	applicationConfigPath := fmt.Sprintf("%s/go-assistant/config.json", userConfigDir)
 
 	return applicationConfigPath
 }
