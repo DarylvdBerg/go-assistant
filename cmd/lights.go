@@ -2,9 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"go-assistant/internal/homeassistant"
-	"go-assistant/ui/lights"
 	"os"
+
+	"github.com/DarylvdBerg/go-assistant/internal/homeassistant"
+	"github.com/DarylvdBerg/go-assistant/ui/lights"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"

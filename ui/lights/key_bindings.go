@@ -1,11 +1,12 @@
 package lights
 
 import (
-	"go-assistant/internal/homeassistant"
-	"go-assistant/shared"
-	"go-assistant/shared/models"
-	"go-assistant/ui/brightness"
 	"log"
+
+	"github.com/DarylvdBerg/go-assistant/internal/homeassistant"
+	"github.com/DarylvdBerg/go-assistant/shared"
+	"github.com/DarylvdBerg/go-assistant/shared/models"
+	"github.com/DarylvdBerg/go-assistant/ui/brightness"
 
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"

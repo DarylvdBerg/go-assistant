@@ -3,8 +3,9 @@ package initialize
 import (
 	"encoding/json"
 	"fmt"
-	"go-assistant/internal/shared"
 	"os"
+
+	"github.com/DarylvdBerg/go-assistant/internal/shared"
 
 	"github.com/charmbracelet/log"
 )

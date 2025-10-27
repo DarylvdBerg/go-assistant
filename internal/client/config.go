@@ -2,16 +2,17 @@ package client
 
 import (
 	"encoding/json"
-	"go-assistant/internal/initialize"
-	"go-assistant/internal/shared"
 	"os"
+
+	"github.com/DarylvdBerg/go-assistant/internal/initialize"
+	"github.com/DarylvdBerg/go-assistant/internal/shared"
 
 	"github.com/charmbracelet/log"
 )
 
 func LoadConfig() (*shared.Config, error) {
 	initialize.CreateConfigIfNotExists()
-	
+
 	file, err := os.Open(initialize.GetConfigPath())
 	if err != nil {
 		return nil, err

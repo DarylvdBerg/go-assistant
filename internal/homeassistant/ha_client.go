@@ -2,10 +2,11 @@ package homeassistant
 
 import (
 	"fmt"
-	"go-assistant/internal/client"
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/DarylvdBerg/go-assistant/internal/client"
 )
 
 type HaClient struct {
