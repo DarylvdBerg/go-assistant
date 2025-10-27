@@ -6,7 +6,9 @@ No worries! `go-assistant` is your friendly command-line sidekick, to control yo
 ![lights_example.png](docs/lights_example.png)
 
 # Installation
-TODO
+```
+go install github.com/DarylvdBerg/go-assistant@v1.0.0
+```
 
 # Initialization & Configuration
 Before you get started make sure to run `go-assistant init` to set up the configuration files for your system. This will basically create a `config.json` in the users configuration directory.
