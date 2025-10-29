@@ -1,11 +1,7 @@
 package lights
 
 import (
-	"log"
-
-	"github.com/DarylvdBerg/go-assistant/internal/homeassistant"
 	"github.com/DarylvdBerg/go-assistant/shared"
-	"github.com/DarylvdBerg/go-assistant/shared/models"
 	"github.com/DarylvdBerg/go-assistant/ui/brightness"
 
 	"github.com/charmbracelet/bubbles/key"
@@ -62,36 +58,4 @@ func (l *KeyBindings) HandleKeyPress(input tea.KeyMsg, lightList LightList) (tea
 	var cmd tea.Cmd
 	lightList.list, cmd = lightList.list.Update(input)
 	return lightList, cmd
-}
-
-func toggleLight(light *models.Light) {
-	var action string
-	if light.State == shared.LightStateOn {
-		action = TurnOffAction
-		light.State = shared.LightStateOff
-	} else {
-		action = TurnOnAction
-		light.State = shared.LightStateOn
-	}
-
-	err := homeassistant.GetClient().ToggleLightState(light.EntityID, action)
-	if err != nil {
-		log.Fatal("failed to toggle light state: ", err)
-	}
-}
-
-func (e *LightList) updateLightState(updatedLight *models.Light) {
-	items := e.list.Items()
-	for i, item := range items {
-		if light, ok := item.(models.Light); ok {
-			if light.EntityID == updatedLight.EntityID {
-				// Update the light's state
-				light.State = updatedLight.State
-				light.Brightness = updatedLight.Brightness
-				// Replace the item in the list
-				e.list.SetItem(i, light)
-				break
-			}
-		}
-	}
 }

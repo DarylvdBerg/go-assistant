@@ -3,8 +3,6 @@ package lights
 import (
 	"github.com/DarylvdBerg/go-assistant/shared/models"
 	"github.com/DarylvdBerg/go-assistant/ui/brightness"
-	"github.com/DarylvdBerg/go-assistant/ui/style"
-
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -34,16 +32,6 @@ func InitLightOverview(lights []models.Light) LightList {
 	}
 
 	return el
-}
-
-func initializeLightList(lights []models.Light) list.Model {
-	items := make([]list.Item, 0)
-
-	for _, s := range lights {
-		items = append(items, s)
-	}
-
-	return list.New(items, style.NewOverviewStyleDelegate(), 0, 0)
 }
 
 func (e LightList) Init() tea.Cmd {
@@ -96,18 +84,4 @@ func (e LightList) View() string {
 	}
 
 	return view
-}
-
-func (e LightList) getSelectedLight() *models.Light {
-	selectedItem := e.list.SelectedItem()
-	if selectedItem == nil {
-		return nil
-	}
-
-	light, ok := selectedItem.(models.Light)
-	if !ok {
-		return nil
-	}
-
-	return &light
 }

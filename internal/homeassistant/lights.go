@@ -55,7 +55,7 @@ func (hc *HaClient) ListLights() ([]models.Light, error) {
 
 func mapToLight(entity map[string]any) *models.Light {
 	id, ok := entity["entity_id"].(string)
-	if !ok || len(id) <= 6 || id[:6] != "light." {
+	if !ok || len(id) <= 6 || id[:6] != LightsPart {
 		return nil
 	}
 
@@ -99,16 +99,16 @@ func haBrightnessToPercent(brightnessValue any) int {
 	}
 }
 
-func (ha *HaClient) ToggleLightState(entityID string, action string) error {
+func (hc *HaClient) ToggleLightState(entityID string, action string) error {
 	path := fmt.Sprintf(LightActionPath, action)
 	body := map[string]any{
 		"entity_id": entityID,
 	}
 
-	return ha.callAction(path, body)
+	return hc.callAction(path, body)
 }
 
-func (ha *HaClient) ChangeBrightness(entityID string, brightness uint8) error {
+func (hc *HaClient) ChangeBrightness(entityID string, brightness uint8) error {
 	// The brightness value in home assistant is 255 for 100% and 2.5 for 1%, hence why we do the calculation.
 	rightHand := float32(brightness) / 100
 	brightnessValue := rightHand * 255
@@ -118,5 +118,5 @@ func (ha *HaClient) ChangeBrightness(entityID string, brightness uint8) error {
 		"brightness": brightnessValue,
 	}
 
-	return ha.callAction(LightBrightnessPath, body)
+	return hc.callAction(LightBrightnessPath, body)
 }

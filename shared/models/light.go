@@ -2,7 +2,7 @@ package models
 
 type Light struct {
 	EntityID     string `json:"entity_id"`
-	State        string `json:"state"`
+	State        string `json:"state"` // TODO: State should eventually be an ENUM internally
 	FriendlyName string `json:"friendly_name"`
 	Brightness   int
 }
