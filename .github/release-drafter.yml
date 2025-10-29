@@ -19,6 +19,10 @@ categories:
       - 'deps'
   - title: '📝 Documentation'
     labels: 'documentation'
+  - title: '✅ Testing'
+    labels:
+      - 'test'
+      - 'testing'
   - title: '⚠️ Breaking Changes'
     labels:
       - 'breaking change'
