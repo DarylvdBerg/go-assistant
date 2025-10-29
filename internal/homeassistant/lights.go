@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 
+	"github.com/DarylvdBerg/go-assistant/shared/light_state"
 	"github.com/DarylvdBerg/go-assistant/shared/models"
 )
 
@@ -59,8 +60,13 @@ func mapToLight(entity map[string]any) *models.Light {
 		return nil
 	}
 
-	state, ok := entity["state"].(string)
+	stateAttr, ok := entity["state"].(string)
 	if !ok {
+		return nil
+	}
+
+	state, err := light_state.EnumValue(stateAttr)
+	if err != nil {
 		return nil
 	}
 
