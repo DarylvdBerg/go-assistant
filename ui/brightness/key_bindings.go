@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/DarylvdBerg/go-assistant/internal/homeassistant"
-	"github.com/DarylvdBerg/go-assistant/shared"
+	"github.com/DarylvdBerg/go-assistant/shared/light_state"
 
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
@@ -62,7 +62,7 @@ func (b KeyBindings) HandleKeyPress(input tea.KeyMsg, panel Panel) (Panel, tea.C
 			log.Printf("failed to change brightness: %v", err)
 		}
 
-		panel.light.State = shared.LightStateOn
+		panel.light.State = light_state.On
 		if panel.OnApply != nil {
 			panel.OnApply(panel.light)
 		}

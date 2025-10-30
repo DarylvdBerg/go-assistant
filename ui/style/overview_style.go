@@ -5,7 +5,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/DarylvdBerg/go-assistant/shared"
+	"github.com/DarylvdBerg/go-assistant/shared/light_state"
 	"github.com/DarylvdBerg/go-assistant/shared/models"
 
 	"github.com/charmbracelet/bubbles/list"
@@ -39,9 +39,9 @@ func (d OverviewStyleDelegate) Render(w io.Writer, m list.Model, index int, list
 
 	var style lipgloss.Style
 	switch light.State {
-	case shared.LightStateOn:
+	case light_state.On:
 		style = d.enabledStyle
-	case shared.LightStateUnavailable:
+	case light_state.Unavailable:
 		style = d.unavailableStyle
 	default:
 		style = d.disabledStyle

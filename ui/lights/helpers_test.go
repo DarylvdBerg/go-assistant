@@ -4,13 +4,14 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/DarylvdBerg/go-assistant/shared/light_state"
 	"github.com/DarylvdBerg/go-assistant/shared/models"
 )
 
 func TestGetSelectedLight(t *testing.T) {
 	lights := []models.Light{
-		{"1", "on", "Light", 100},
-		{"2", "off", "Light2", 50},
+		{"1", light_state.On, "Light", 100},
+		{"2", light_state.Off, "Light2", 50},
 	}
 
 	overview := InitLightOverview(lights)
@@ -27,7 +28,7 @@ func TestUpdateLightState(t *testing.T) {
 	lights := []models.Light{
 		{
 			EntityID:     "1",
-			State:        "on",
+			State:        light_state.On,
 			FriendlyName: "Light",
 			Brightness:   100,
 		},
@@ -40,25 +41,25 @@ func TestUpdateLightState(t *testing.T) {
 		t.Fatalf("GetSelectedLight() for initial light returned nil, expected a light")
 	}
 
-	if selectedLight.State != "on" {
-		t.Errorf("Initial light state is %s, expected 'on'", selectedLight.State)
+	if selectedLight.State != light_state.On {
+		t.Errorf("Initial light state is %s, expected 'on'", selectedLight.State.StringValue())
 	}
 
-	selectedLight.State = "off"
+	selectedLight.State = light_state.Off
 	overview.updateLightState(selectedLight)
 	updatedLight := overview.getSelectedLight()
 	if updatedLight == nil {
 		t.Fatalf("GetSelectedLight() for updated light returned nil, expected a light")
 	}
 
-	if updatedLight.State != "off" {
-		t.Errorf("Updated light state is %s, expected 'off'", updatedLight.State)
+	if updatedLight.State != light_state.Off {
+		t.Errorf("Updated light state is %s, expected 'off'", updatedLight.State.StringValue())
 	}
 }
 
 func TestInitializeLightList(t *testing.T) {
 	lights := []models.Light{
-		{"1", "on", "Light", 100},
+		{"1", light_state.On, "Light", 100},
 	}
 
 	list := initializeLightList(lights)

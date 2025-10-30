@@ -1,7 +1,7 @@
 package lights
 
 import (
-	"github.com/DarylvdBerg/go-assistant/shared"
+	"github.com/DarylvdBerg/go-assistant/shared/light_state"
 	"github.com/DarylvdBerg/go-assistant/ui/brightness"
 
 	"github.com/charmbracelet/bubbles/key"
@@ -13,10 +13,8 @@ type KeyBindings struct {
 	brightnessControl key.Binding
 }
 
-const (
-	TurnOnAction  = "turn_" + shared.LightStateOn
-	TurnOffAction = "turn_" + shared.LightStateOff
-)
+var TurnOnAction = "turn_" + light_state.On.StringValue()
+var TurnOffAction = "turn_" + light_state.Off.StringValue()
 
 func NewLightListKeyMap() *KeyBindings {
 	return &KeyBindings{
@@ -44,7 +42,7 @@ func (l *KeyBindings) HandleKeyPress(input tea.KeyMsg, lightList LightList) (tea
 			return lightList, nil
 		}
 
-		if light.State == shared.LightStateUnavailable {
+		if light.State == light_state.Unavailable {
 			return lightList, nil
 		}
 

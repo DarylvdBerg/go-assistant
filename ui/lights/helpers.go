@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/DarylvdBerg/go-assistant/internal/homeassistant"
-	"github.com/DarylvdBerg/go-assistant/shared"
+	"github.com/DarylvdBerg/go-assistant/shared/light_state"
 	"github.com/DarylvdBerg/go-assistant/shared/models"
 	"github.com/DarylvdBerg/go-assistant/ui/style"
 	"github.com/charmbracelet/bubbles/list"
@@ -26,12 +26,12 @@ func (e LightList) getSelectedLight() *models.Light {
 
 func toggleLight(light *models.Light) {
 	var action string
-	if light.State == shared.LightStateOn {
+	if light.State == light_state.On {
 		action = TurnOffAction
-		light.State = shared.LightStateOff
+		light.State = light_state.Off
 	} else {
 		action = TurnOnAction
-		light.State = shared.LightStateOn
+		light.State = light_state.On
 	}
 
 	err := homeassistant.GetClient().ToggleLightState(light.EntityID, action)
