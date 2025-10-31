@@ -2,13 +2,15 @@ package models
 
 import (
 	"github.com/DarylvdBerg/go-assistant/shared/light_state"
+	"github.com/DarylvdBerg/go-assistant/shared/supported_color_modes"
 )
 
 type Light struct {
-	EntityID     string            `json:"entity_id"`
-	State        light_state.State `json:"state"`
-	FriendlyName string            `json:"friendly_name"`
-	Brightness   int
+	EntityID            string
+	State               light_state.State
+	FriendlyName        string
+	Brightness          int
+	SupportedColorModes supported_color_modes.SupportedColorModes
 }
 
 func (l Light) Title() string       { return l.FriendlyName }
