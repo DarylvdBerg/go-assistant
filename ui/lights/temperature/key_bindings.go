@@ -10,8 +10,8 @@ type KeyBindings struct {
 	cancel               key.Binding
 	increaseByTwentyFive key.Binding
 	decreaseByTwentyFive key.Binding
-	increaseByHundred    key.Binding
-	decreaseByHundred    key.Binding
+	increaseByOneK       key.Binding
+	decreaseByOneK       key.Binding
 }
 
 func NewTemperatureKeyBindings() *KeyBindings {
@@ -26,17 +26,17 @@ func NewTemperatureKeyBindings() *KeyBindings {
 		),
 		increaseByTwentyFive: key.NewBinding(
 			key.WithKeys("right"),
-			key.WithHelp("→", "Increase temperature by 25K"),
+			key.WithHelp("→", "Increase temperature by 250K"),
 		),
 		decreaseByTwentyFive: key.NewBinding(
 			key.WithKeys("left"),
-			key.WithHelp("←", "Decrease temperature by 25K"),
+			key.WithHelp("←", "Decrease temperature by 250K"),
 		),
-		increaseByHundred: key.NewBinding(
+		increaseByOneK: key.NewBinding(
 			key.WithKeys("k"),
 			key.WithHelp("k", "Increase temperature by 100K"),
 		),
-		decreaseByHundred: key.NewBinding(
+		decreaseByOneK: key.NewBinding(
 			key.WithKeys("j"),
 			key.WithHelp("j", "Decrease temperature by 100K"),
 		),
