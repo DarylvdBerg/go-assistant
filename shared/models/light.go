@@ -6,11 +6,27 @@ import (
 )
 
 type Light struct {
-	EntityID            string
-	State               light_state.State
-	FriendlyName        string
-	Brightness          int
+	// EntityID is the unique identifier of the light
+	EntityID string
+	// State indicates the current state of the light (on/off/unavailable)
+	State light_state.State
+	// FriendlyName is the human-readable name of the light
+	FriendlyName string
+	// Brightness indicates the brightness of the light from 0-255
+	Brightness int
+	// SupportedColorModes indicates which color modes the light supports
 	SupportedColorModes supported_color_modes.SupportedColorModes
+	// ColorTemp holds information about the color temperature of the light, nil if the light does not support color temperature
+	ColorTemp *colorTemp
+}
+
+type colorTemp struct {
+	// minTemp indicates the minimum temperature the light supports in kelvin
+	minTemp int
+	// temp indicates the current temperature the light is set to in kelvin, pointer value because the api can return nil when the light is in a State.Off state.
+	temp *int
+	// maxTemp indicates the maximum temperature the light supports in kelvin
+	maxTempt int
 }
 
 func (l Light) Title() string       { return l.FriendlyName }
