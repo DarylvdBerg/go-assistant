@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/DarylvdBerg/go-assistant/shared/models"
+	"github.com/DarylvdBerg/go-assistant/ui/lights/base"
 	"github.com/DarylvdBerg/go-assistant/ui/style"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -11,19 +12,14 @@ import (
 )
 
 type Panel struct {
-	light   *models.Light
-	isOpen  bool
-	keys    *KeyBindings
-	width   int
-	height  int
-	OnApply func(*models.Light)
+	base.Panel
+	keys *KeyBindings
 }
 
-func NewBrightnessPanel(light models.Light) *Panel {
+func InitializeNewBrightnessPanel(light models.Light) *Panel {
 	return &Panel{
-		light:  &light,
-		isOpen: true,
-		keys:   NewBrightnessKeyBindings(),
+		Panel: base.InitializeNewBasePanel(light),
+		keys:  NewBrightnessKeyBindings(),
 	}
 }
 
@@ -32,7 +28,7 @@ func (b Panel) Init() tea.Cmd {
 }
 
 func (b Panel) Update(msg tea.Msg) (Panel, tea.Cmd) {
-	if !b.isOpen {
+	if !b.IsOpen {
 		return b, nil
 	}
 
@@ -40,10 +36,8 @@ func (b Panel) Update(msg tea.Msg) (Panel, tea.Cmd) {
 
 	case tea.KeyMsg:
 		return b.keys.HandleKeyPress(msg, b)
-
 	case tea.WindowSizeMsg:
-		b.height = msg.Height
-		b.width = msg.Width
+		b.UpdateWindowSize(msg)
 		return b, nil
 	}
 
@@ -51,13 +45,13 @@ func (b Panel) Update(msg tea.Msg) (Panel, tea.Cmd) {
 }
 
 func (b Panel) View() string {
-	if !b.isOpen {
+	if !b.IsOpen {
 		return ""
 	}
 
 	// Create progress bar
 	progressWidth := 40
-	filled := int(float64(progressWidth) * float64(b.light.Brightness) / 100)
+	filled := int(float64(progressWidth) * float64(b.Light.Brightness) / 100)
 
 	progressBar := ""
 	for i := 0; i < progressWidth; i++ {
@@ -73,15 +67,11 @@ func (b Panel) View() string {
 			"Controls:\n"+
 			"← → ±10    k j: ±5\n"+
 			"Enter: Apply    Esc: Cancel",
-		b.light.FilterValue(),
+		b.Light.FilterValue(),
 		progressBar,
-		b.light.Brightness,
+		b.Light.Brightness,
 	)
 
-	return lipgloss.Place(b.width, b.height, lipgloss.Center, lipgloss.Center,
+	return lipgloss.Place(b.Width, b.Height, lipgloss.Center, lipgloss.Center,
 		style.DefaultPanelStyle().Render(content))
-}
-
-func (b Panel) IsOpen() bool {
-	return b.isOpen
 }

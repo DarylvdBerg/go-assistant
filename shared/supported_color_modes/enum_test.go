@@ -13,10 +13,7 @@ func TestSupportedColorModes_StringValue(t *testing.T) {
 
 func TestSupportedColorModes_EnumValue(t *testing.T) {
 	mode := "color_temp"
-	actual, err := EnumValue(mode)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
+	actual := EnumValue(mode)
 
 	if actual != ColorTemp {
 		t.Errorf("Expected ColorTemp, got '%v'", actual)

@@ -23,6 +23,6 @@ func (s SupportedColorModes) StringValue() string {
 	return utils.StringValue(s, supportedColorModesName)
 }
 
-func EnumValue(s string) (SupportedColorModes, error) {
+func EnumValue(s string) SupportedColorModes {
 	return utils.EnumValue(s, supportedColorModesName, None)
 }

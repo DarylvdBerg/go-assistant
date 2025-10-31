@@ -13,17 +13,17 @@ func TestNewBrightnessPanel(t *testing.T) {
 		EntityID: "1", State: light_state.On, FriendlyName: "Living Room Light", Brightness: 75,
 	}
 
-	panel := NewBrightnessPanel(light)
+	panel := InitializeNewBrightnessPanel(light)
 
 	if panel == nil {
-		t.Fatalf("NewBrightnessPanel() returned nil")
+		t.Fatalf("InitializeNewBrightnessPanel() returned nil")
 	}
 
 	if !reflect.DeepEqual(&light, panel.light) {
-		t.Errorf("NewBrightnessPanel() = %v, want %v", panel, light)
+		t.Errorf("InitializeNewBrightnessPanel() = %v, want %v", panel, light)
 	}
 
 	if panel.keys == nil {
-		t.Errorf("NewBrightnessPanel() keys not initialized")
+		t.Errorf("InitializeNewBrightnessPanel() keys not initialized")
 	}
 }

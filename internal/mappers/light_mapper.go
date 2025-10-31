@@ -24,10 +24,7 @@ func MapToLight(entity map[string]any) *models.Light {
 		return nil
 	}
 
-	state, err := light_state.EnumValue(stateAttr)
-	if err != nil {
-		return nil
-	}
+	state := light_state.EnumValue(stateAttr)
 
 	attrs, ok := entity["attributes"].(map[string]any)
 	if !ok {
@@ -71,9 +68,8 @@ func mapSupportedColorModes(entries []any) []supported_color_modes.SupportedColo
 			continue
 		}
 
-		colorMode, err := supported_color_modes.EnumValue(mode)
-		if err != nil {
-			log.Println("Unable to parse Enum value, it is either invalid or not supported")
+		colorMode := supported_color_modes.EnumValue(mode)
+		if colorMode == supported_color_modes.None {
 			continue
 		}
 

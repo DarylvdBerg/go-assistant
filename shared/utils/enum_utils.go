@@ -1,7 +1,5 @@
 package utils
 
-import "errors"
-
 type Enum interface {
 	comparable
 }
@@ -10,12 +8,12 @@ func StringValue[T Enum](e T, values map[T]string) string {
 	return values[e]
 }
 
-func EnumValue[T Enum](s string, values map[T]string, noneValue T) (T, error) {
+func EnumValue[T Enum](s string, values map[T]string, noneValue T) T {
 	for k, v := range values {
 		if v == s {
-			return k, nil
+			return k
 		}
 	}
 
-	return noneValue, errors.New("unable to transform string to enum entry")
+	return noneValue
 }

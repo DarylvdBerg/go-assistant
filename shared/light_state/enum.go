@@ -22,6 +22,6 @@ func (ls State) StringValue() string {
 	return utils.StringValue(ls, stateName)
 }
 
-func EnumValue(s string) (State, error) {
+func EnumValue(s string) State {
 	return utils.EnumValue(s, stateName, Unavailable)
 }
