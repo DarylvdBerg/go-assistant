@@ -7,7 +7,6 @@ import (
 	"log"
 
 	"github.com/DarylvdBerg/go-assistant/internal/mappers"
-	"github.com/DarylvdBerg/go-assistant/shared/light_state"
 	"github.com/DarylvdBerg/go-assistant/shared/models"
 )
 
@@ -15,10 +14,6 @@ const (
 	ListLightsPath      = "/api/states"
 	LightActionPath     = "/api/services/light/%s"
 	LightBrightnessPath = "/api/services/light/turn_on"
-)
-
-const (
-	LightsPart = "light."
 )
 
 func (hc *HaClient) ListLights() ([]models.Light, error) {
@@ -45,7 +40,7 @@ func (hc *HaClient) ListLights() ([]models.Light, error) {
 
 	lights := make([]models.Light, 0)
 	for _, entity := range allEntities {
-		light := mapToLight(entity)
+		light := mappers.MapToLight(entity)
 		if light == nil {
 			continue
 		}
@@ -53,49 +48,6 @@ func (hc *HaClient) ListLights() ([]models.Light, error) {
 	}
 
 	return lights, nil
-}
-
-func mapToLight(entity map[string]any) *models.Light {
-	id, ok := entity["entity_id"].(string)
-	if !ok || len(id) <= 6 || id[:6] != LightsPart {
-		return nil
-	}
-
-	stateAttr, ok := entity["state"].(string)
-	if !ok {
-		return nil
-	}
-
-	state, err := light_state.EnumValue(stateAttr)
-	if err != nil {
-		return nil
-	}
-
-	attrs, ok := entity["attributes"].(map[string]any)
-	if !ok {
-		return nil
-	}
-
-	name, ok := attrs["friendly_name"].(string)
-	if !ok {
-		return nil
-	}
-
-	light := &models.Light{
-		EntityID:     id,
-		State:        state,
-		FriendlyName: name,
-	}
-
-	if supportedModes, ok := attrs["supported_color_modes"].([]any); ok {
-		light.SupportedColorModes = mappers.MapSupportedColorModes(supportedModes)
-	}
-
-	if brightness, ok := attrs["brightness"]; ok {
-		light.Brightness = mappers.MapBrightness(brightness)
-	}
-
-	return light
 }
 
 func (hc *HaClient) ToggleLightState(entityID string, action string) error {
