@@ -10,6 +10,9 @@ categories:
       - 'fix'
       - 'bugfix'
       - 'bug'
+  - title: '⚠️ Breaking Changes'
+    labels:
+      - 'breaking change'
   - title: '🧰 Maintenance'
     label: 'chore'
   - title: '⚙️ Dependencies'
@@ -17,15 +20,16 @@ categories:
       - 'dependencies'
       - 'dependency'
       - 'deps'
+  - title: '🔧 Continuous Integration'
+    labels:
+      - 'ci'
+      - 'continuous integration'
   - title: '📝 Documentation'
     labels: 'documentation'
   - title: '✅ Testing'
     labels:
       - 'test'
       - 'testing'
-  - title: '⚠️ Breaking Changes'
-    labels:
-      - 'breaking change'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:
