@@ -6,20 +6,33 @@ No worries! `go-assistant` is your friendly command-line sidekick, to control yo
 ![lights_example.png](docs/lights_example.png)
 
 ## Supported actions
+
 - Toggle lights on / off
 - Adjust brightness
 - Adjust color temperature (if supported by the light)
 
 # Installation
+
 ```
 go install github.com/DarylvdBerg/go-assistant@v1.0.0
 ```
 
 # Initialization & Configuration
-Before you get started make sure to run `go-assistant init` to set up the configuration files for your system. This will basically create a `config.json` in the users configuration directory.
-Running `go-assistant configure` will open the `config.json` through `nano` where you're able to configure the home-assistant endpoint and long-lived token.
+
+To initialize the configuration for this tool, run:
+```
+go-assistant init
+```
+This will create a `config.json` file in your user configuration directory in a new folder called `go-assistant`.
+
+To configure go-assistant, run:
+```
+go-assistant configure
+```
+This will open a `nano` editor (for Linux / MacOS) with the `config.json` file where you can set your Home Assistant endpoint and long-lived access token.
 
 # Usage
+
 ![usage.png](docs/usage.png)
 
 - Accept your laziness by opening your terminal.
