@@ -8,6 +8,7 @@ import (
 	"github.com/charmbracelet/log"
 )
 
+// CreateConfigIfNotExists will create a directory and config.json in the users config directory if not existing already.
 func CreateConfigIfNotExists() {
 	userConfigPath, err := os.UserConfigDir()
 	if err != nil {
