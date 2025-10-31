@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 
+	"github.com/DarylvdBerg/go-assistant/internal/mappers"
 	"github.com/DarylvdBerg/go-assistant/shared/light_state"
 	"github.com/DarylvdBerg/go-assistant/shared/models"
 )
@@ -86,23 +87,15 @@ func mapToLight(entity map[string]any) *models.Light {
 		FriendlyName: name,
 	}
 
+	if supportedModes, ok := attrs["supported_color_modes"].([]any); ok {
+		light.SupportedColorModes = mappers.MapSupportedColorModes(supportedModes)
+	}
+
 	if brightness, ok := attrs["brightness"]; ok {
-		light.Brightness = haBrightnessToPercent(brightness)
+		light.Brightness = mappers.MapBrightness(brightness)
 	}
 
 	return light
-}
-
-// Converts Home Assistant brightness (0–255) to percentage (0–100)
-func haBrightnessToPercent(brightnessValue any) int {
-	switch v := brightnessValue.(type) {
-	case float64:
-		return int(v / 255 * 100)
-	case int:
-		return int(float64(v) / 255 * 100)
-	default:
-		return 0
-	}
 }
 
 func (hc *HaClient) ToggleLightState(entityID string, action string) error {

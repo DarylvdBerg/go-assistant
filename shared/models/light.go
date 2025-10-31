@@ -15,18 +15,18 @@ type Light struct {
 	// Brightness indicates the brightness of the light from 0-255
 	Brightness int
 	// SupportedColorModes indicates which color modes the light supports
-	SupportedColorModes supported_color_modes.SupportedColorModes
+	SupportedColorModes []supported_color_modes.SupportedColorModes
 	// ColorTemp holds information about the color temperature of the light, nil if the light does not support color temperature
 	ColorTemp *colorTemp
 }
 
 type colorTemp struct {
 	// minTemp indicates the minimum temperature the light supports in kelvin
-	minTemp int
+	minTemp float64
 	// temp indicates the current temperature the light is set to in kelvin, pointer value because the api can return nil when the light is in a State.Off state.
-	temp *int
+	temp *float64
 	// maxTemp indicates the maximum temperature the light supports in kelvin
-	maxTempt int
+	maxTempt float64
 }
 
 func (l Light) Title() string       { return l.FriendlyName }
