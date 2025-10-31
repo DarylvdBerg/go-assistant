@@ -5,6 +5,11 @@ No worries! `go-assistant` is your friendly command-line sidekick, to control yo
 
 ![lights_example.png](docs/lights_example.png)
 
+## Supported actions
+- Toggle lights on / off
+- Adjust brightness
+- Adjust color temperature (if supported by the light)
+
 # Installation
 ```
 go install github.com/DarylvdBerg/go-assistant@v1.0.0
