@@ -4,16 +4,14 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/DarylvdBerg/go-assistant/internal/initialize"
-	"github.com/DarylvdBerg/go-assistant/internal/shared"
-
+	"github.com/DarylvdBerg/go-assistant/internal/config"
 	"github.com/charmbracelet/log"
 )
 
-func LoadConfig() (*shared.Config, error) {
-	initialize.CreateConfigIfNotExists()
+func LoadConfig() (*config.Config, error) {
+	config.CreateConfigIfNotExists()
 
-	file, err := os.Open(initialize.GetConfigPath())
+	file, err := os.Open(config.GetConfigPath())
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +23,7 @@ func LoadConfig() (*shared.Config, error) {
 		}
 	}(file)
 
-	var config shared.Config
+	var config config.Config
 	if err := json.NewDecoder(file).Decode(&config); err != nil {
 		return nil, err
 	}
