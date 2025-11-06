@@ -22,11 +22,11 @@ type Light struct {
 
 type ColorTemp struct {
 	// MinTemp indicates the minimum temperature the light supports in kelvin
-	MinTemp float64
+	MinTemp int
 	// Temp indicates the current temperature the light is set to in kelvin, pointer value because the api can return nil when the light is in a State.Off state.
-	Temp *float64
+	Temp int
 	// MaxTemp indicates the maximum temperature the light supports in kelvin
-	MaxTemp float64
+	MaxTemp int
 }
 
 func (l Light) Title() string       { return l.FriendlyName }

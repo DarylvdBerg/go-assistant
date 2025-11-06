@@ -105,14 +105,14 @@ func mapColorTemp(entries map[string]any) *models.ColorTemp {
 		return nil
 	}
 
-	temp, ok := entries["color_temp"].(*float64)
+	temp, ok := entries["color_temp"].(float64)
 	if !ok {
-		temp = nil
+		temp = minColorTempKelvin
 	}
 
 	return &models.ColorTemp{
-		MinTemp: minColorTempKelvin,
-		MaxTemp: maxColorTempKelvin,
-		Temp:    temp,
+		MinTemp: int(minColorTempKelvin),
+		MaxTemp: int(maxColorTempKelvin),
+		Temp:    int(temp),
 	}
 }

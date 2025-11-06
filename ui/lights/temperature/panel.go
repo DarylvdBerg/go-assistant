@@ -2,6 +2,7 @@ package temperature
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/DarylvdBerg/go-assistant/shared/models"
 	"github.com/DarylvdBerg/go-assistant/ui/lights/base"
@@ -46,17 +47,30 @@ func (t Panel) View() string {
 	}
 
 	// Create progress bar
-	progressWidth := 40.0
-	var filled float64
+	progressWidth := 40
 
-	if t.Light.ColorTemp.Temp == nil {
-		filled = 0.0
-	} else {
-		filled = *t.Light.ColorTemp.Temp
+	temp := t.Light.ColorTemp.Temp
+	maxTemp := t.Light.ColorTemp.MaxTemp
+	if maxTemp <= 0 {
+		maxTemp = 1
+	}
+	fraction := float64(temp) / float64(maxTemp)
+	if fraction < 0 {
+		fraction = 0
+	}
+	if fraction > 1 {
+		fraction = 1
+	}
+	filled := int(math.Round(fraction * float64(progressWidth)))
+	if filled < 0 {
+		filled = 0
+	}
+	if filled > progressWidth {
+		filled = progressWidth
 	}
 
 	progressBar := ""
-	for i := 0.0; i < progressWidth; i++ {
+	for i := 0; i < progressWidth; i++ {
 		if i < filled {
 			progressBar += style.DefaultProgressStyle().Render("█")
 		} else {
