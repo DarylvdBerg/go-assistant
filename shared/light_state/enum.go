@@ -1,7 +1,7 @@
 package light_state
 
 import (
-	"errors"
+	"github.com/DarylvdBerg/go-assistant/shared/utils"
 )
 
 type State int
@@ -19,15 +19,9 @@ var stateName = map[State]string{
 }
 
 func (ls State) StringValue() string {
-	return stateName[ls]
+	return utils.StringValue(ls, stateName)
 }
 
-func EnumValue(s string) (State, error) {
-	for k, v := range stateName {
-		if v == s {
-			return k, nil
-		}
-	}
-
-	return Unavailable, errors.New("unable to transform string to State enum entry")
+func EnumValue(s string) State {
+	return utils.EnumValue(s, stateName, Unavailable)
 }

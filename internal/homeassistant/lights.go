@@ -6,7 +6,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/DarylvdBerg/go-assistant/shared/light_state"
+	"github.com/DarylvdBerg/go-assistant/internal/mappers"
 	"github.com/DarylvdBerg/go-assistant/shared/models"
 )
 
@@ -16,10 +16,7 @@ const (
 	LightBrightnessPath = "/api/services/light/turn_on"
 )
 
-const (
-	LightsPart = "light."
-)
-
+// ListLights retrieves all entities starting with "light." and maps them to our Light model.
 func (hc *HaClient) ListLights() ([]models.Light, error) {
 	res, err := hc.Request("GET", ListLightsPath, nil)
 
@@ -44,7 +41,7 @@ func (hc *HaClient) ListLights() ([]models.Light, error) {
 
 	lights := make([]models.Light, 0)
 	for _, entity := range allEntities {
-		light := mapToLight(entity)
+		light := mappers.MapToLight(entity)
 		if light == nil {
 			continue
 		}
@@ -54,57 +51,7 @@ func (hc *HaClient) ListLights() ([]models.Light, error) {
 	return lights, nil
 }
 
-func mapToLight(entity map[string]any) *models.Light {
-	id, ok := entity["entity_id"].(string)
-	if !ok || len(id) <= 6 || id[:6] != LightsPart {
-		return nil
-	}
-
-	stateAttr, ok := entity["state"].(string)
-	if !ok {
-		return nil
-	}
-
-	state, err := light_state.EnumValue(stateAttr)
-	if err != nil {
-		return nil
-	}
-
-	attrs, ok := entity["attributes"].(map[string]any)
-	if !ok {
-		return nil
-	}
-
-	name, ok := attrs["friendly_name"].(string)
-	if !ok {
-		return nil
-	}
-
-	light := &models.Light{
-		EntityID:     id,
-		State:        state,
-		FriendlyName: name,
-	}
-
-	if brightness, ok := attrs["brightness"]; ok {
-		light.Brightness = haBrightnessToPercent(brightness)
-	}
-
-	return light
-}
-
-// Converts Home Assistant brightness (0–255) to percentage (0–100)
-func haBrightnessToPercent(brightnessValue any) int {
-	switch v := brightnessValue.(type) {
-	case float64:
-		return int(v / 255 * 100)
-	case int:
-		return int(float64(v) / 255 * 100)
-	default:
-		return 0
-	}
-}
-
+// ToggleLightState toggles the state of a light entity based on the provided action ("turn_on" or "turn_off").
 func (hc *HaClient) ToggleLightState(entityID string, action string) error {
 	path := fmt.Sprintf(LightActionPath, action)
 	body := map[string]any{
@@ -114,6 +61,7 @@ func (hc *HaClient) ToggleLightState(entityID string, action string) error {
 	return hc.callAction(path, body)
 }
 
+// ChangeBrightness changes the brightness of a light entity to the specified value (0-100).
 func (hc *HaClient) ChangeBrightness(entityID string, brightness uint8) error {
 	// The brightness value in home assistant is 255 for 100% and 2.5 for 1%, hence why we do the calculation.
 	rightHand := float32(brightness) / 100
@@ -122,6 +70,16 @@ func (hc *HaClient) ChangeBrightness(entityID string, brightness uint8) error {
 	body := map[string]any{
 		"entity_id":  entityID,
 		"brightness": brightnessValue,
+	}
+
+	return hc.callAction(LightBrightnessPath, body)
+}
+
+// ChangeColorTemp changes the color temperature of a light entity to the specified value in kelvin.
+func (hc *HaClient) ChangeColorTemp(entityID string, colorTemp int) error {
+	body := map[string]any{
+		"entity_id":         entityID,
+		"color_temp_kelvin": colorTemp,
 	}
 
 	return hc.callAction(LightBrightnessPath, body)

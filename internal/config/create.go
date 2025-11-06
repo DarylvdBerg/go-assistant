@@ -1,15 +1,14 @@
-package initialize
+package config
 
 import (
 	"encoding/json"
 	"fmt"
 	"os"
 
-	"github.com/DarylvdBerg/go-assistant/internal/shared"
-
 	"github.com/charmbracelet/log"
 )
 
+// CreateConfigIfNotExists will create a directory and config.json in the users config directory if not existing already.
 func CreateConfigIfNotExists() {
 	userConfigPath, err := os.UserConfigDir()
 	if err != nil {
@@ -23,11 +22,11 @@ func CreateConfigIfNotExists() {
 		log.Debug("config directory does not exist, creating it...")
 		err = os.MkdirAll(applicationConfigPath, os.ModePerm)
 		if err != nil {
-			log.Fatalf("failed to create initialize directory: %s", err)
+			log.Fatalf("failed to create config directory: %s", err)
 		}
 	}
 
-	// Now validate if we have a initialize file, otherwise create it.
+	// Now validate if we have a config file, otherwise create it.
 	configFilePath := fmt.Sprintf("%s/config.json", applicationConfigPath)
 	if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
 		log.Debug("config file does not exist, creating it...")
@@ -38,7 +37,7 @@ func CreateConfigIfNotExists() {
 		}
 
 		log.Debug("Creating empty config object...")
-		emptyConfigData, err := json.MarshalIndent(shared.Config{}, "", "  ")
+		emptyConfigData, err := json.MarshalIndent(Config{}, "", "  ")
 
 		if err != nil {
 			log.Fatalf("failed to marshal empty config data: %s", err)

@@ -6,12 +6,13 @@ import (
 
 	"github.com/DarylvdBerg/go-assistant/shared/light_state"
 	"github.com/DarylvdBerg/go-assistant/shared/models"
+	"github.com/DarylvdBerg/go-assistant/shared/supported_color_modes"
 )
 
 func TestGetSelectedLight(t *testing.T) {
 	lights := []models.Light{
-		{"1", light_state.On, "Light", 100},
-		{"2", light_state.Off, "Light2", 50},
+		{"1", light_state.On, "Light", 100, []supported_color_modes.SupportedColorModes{supported_color_modes.Brightness}, nil},
+		{"2", light_state.Off, "Light2", 50, []supported_color_modes.SupportedColorModes{supported_color_modes.Brightness}, nil},
 	}
 
 	overview := InitLightOverview(lights)
@@ -59,7 +60,7 @@ func TestUpdateLightState(t *testing.T) {
 
 func TestInitializeLightList(t *testing.T) {
 	lights := []models.Light{
-		{"1", light_state.On, "Light", 100},
+		{"1", light_state.On, "Light", 100, []supported_color_modes.SupportedColorModes{supported_color_modes.Brightness}, nil},
 	}
 
 	list := initializeLightList(lights)

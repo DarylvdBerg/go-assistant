@@ -48,54 +48,55 @@ func NewBrightnessKeyBindings() *KeyBindings {
 	}
 }
 func (b KeyBindings) HandleKeyPress(input tea.KeyMsg, panel Panel) (Panel, tea.Cmd) {
-	if !panel.isOpen {
+	if !panel.IsOpen {
 		return panel, nil
 	}
 
 	switch {
 	case key.Matches(input, b.cancel):
-		panel.isOpen = false
+		panel.IsOpen = false
 		return panel, nil
 	case key.Matches(input, b.applyBrightness):
-		err := homeassistant.GetClient().ChangeBrightness(panel.light.EntityID, uint8(panel.light.Brightness))
+		err := homeassistant.GetClient().ChangeBrightness(panel.Light.EntityID, uint8(panel.Light.Brightness))
+
 		if err != nil {
 			log.Printf("failed to change brightness: %v", err)
 		}
 
-		panel.light.State = light_state.On
+		panel.Light.State = light_state.On
 		if panel.OnApply != nil {
-			panel.OnApply(panel.light)
+			panel.OnApply(panel.Light)
 		}
-		panel.isOpen = false
+		panel.IsOpen = false
 		return panel, nil
 	case key.Matches(input, b.increaseByTen):
-		if panel.light.Brightness >= 100 {
-			panel.light.Brightness = 100
+		if panel.Light.Brightness >= 100 {
+			panel.Light.Brightness = 100
 			return panel, nil
 		}
-		panel.light.Brightness += 10
+		panel.Light.Brightness += 10
 		return panel, nil
 	case key.Matches(input, b.decreaseByTen):
-		if panel.light.Brightness <= 0 {
-			panel.light.Brightness = 0
+		if panel.Light.Brightness <= 0 {
+			panel.Light.Brightness = 0
 			return panel, nil
 		}
-		panel.light.Brightness -= 10
+		panel.Light.Brightness -= 10
 		return panel, nil
 
 	case key.Matches(input, b.increaseByFive):
-		if panel.light.Brightness >= 100 {
-			panel.light.Brightness = 100
+		if panel.Light.Brightness >= 100 {
+			panel.Light.Brightness = 100
 			return panel, nil
 		}
-		panel.light.Brightness += 5
+		panel.Light.Brightness += 5
 		return panel, nil
 	case key.Matches(input, b.decreaseByFive):
-		if panel.light.Brightness <= 0 {
-			panel.light.Brightness = 0
+		if panel.Light.Brightness <= 0 {
+			panel.Light.Brightness = 0
 			return panel, nil
 		}
-		panel.light.Brightness -= 5
+		panel.Light.Brightness -= 5
 		return panel, nil
 	}
 

@@ -48,6 +48,7 @@ func (e LightList) updateLightState(updatedLight *models.Light) {
 				// Update the light's state
 				light.State = updatedLight.State
 				light.Brightness = updatedLight.Brightness
+				light.ColorTemp = updatedLight.ColorTemp
 				// Replace the item in the list
 				e.list.SetItem(i, light)
 				break
