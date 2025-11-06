@@ -68,7 +68,7 @@ func (k KeyBindings) HandleKeyPress(input tea.KeyMsg, panel Panel) (Panel, tea.C
 		panel.IsOpen = false
 		return panel, nil
 	case key.Matches(input, k.increaseBy100K):
-		panel.Light.ColorTemp.Temp += 100
+		panel.Light.ColorTemp.Temp += 10
 
 		if panel.Light.ColorTemp.Temp > panel.Light.ColorTemp.MaxTemp {
 			panel.Light.ColorTemp.Temp = panel.Light.ColorTemp.MaxTemp
@@ -76,7 +76,7 @@ func (k KeyBindings) HandleKeyPress(input tea.KeyMsg, panel Panel) (Panel, tea.C
 
 		return panel, nil
 	case key.Matches(input, k.decreaseBy100K):
-		panel.Light.ColorTemp.Temp -= 100
+		panel.Light.ColorTemp.Temp -= 10
 
 		if panel.Light.ColorTemp.Temp < panel.Light.ColorTemp.MinTemp {
 			panel.Light.ColorTemp.Temp = panel.Light.ColorTemp.MinTemp
@@ -84,14 +84,14 @@ func (k KeyBindings) HandleKeyPress(input tea.KeyMsg, panel Panel) (Panel, tea.C
 
 		return panel, nil
 	case key.Matches(input, k.increaseByOneK):
-		panel.Light.ColorTemp.Temp += 1000
+		panel.Light.ColorTemp.Temp += 100
 		if panel.Light.ColorTemp.Temp > panel.Light.ColorTemp.MaxTemp {
 			panel.Light.ColorTemp.Temp = panel.Light.ColorTemp.MaxTemp
 		}
 
 		return panel, nil
 	case key.Matches(input, k.decreaseByOneK):
-		panel.Light.ColorTemp.Temp -= 1000
+		panel.Light.ColorTemp.Temp -= 100
 		if panel.Light.ColorTemp.Temp < panel.Light.ColorTemp.MinTemp {
 			panel.Light.ColorTemp.Temp = panel.Light.ColorTemp.MinTemp
 		}

@@ -105,7 +105,7 @@ func mapColorTemp(entries map[string]any) *models.ColorTemp {
 		return nil
 	}
 
-	temp, ok := entries["color_temp"].(float64)
+	temp, ok := entries["color_temp_kelvin"].(float64)
 	if !ok {
 		temp = minColorTempKelvin
 	}

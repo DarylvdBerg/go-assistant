@@ -78,8 +78,8 @@ func (hc *HaClient) ChangeBrightness(entityID string, brightness uint8) error {
 // ChangeColorTemp changes the color temperature of a light entity to the specified value in kelvin.
 func (hc *HaClient) ChangeColorTemp(entityID string, colorTemp int) error {
 	body := map[string]any{
-		"entity_id":  entityID,
-		"color_temp": colorTemp,
+		"entity_id":         entityID,
+		"color_temp_kelvin": colorTemp,
 	}
 
 	return hc.callAction(LightBrightnessPath, body)
