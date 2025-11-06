@@ -12,10 +12,8 @@ func TestLightState_StringValue(t *testing.T) {
 
 func TestLightState_EnumValue(t *testing.T) {
 	state := "off"
-	actual, err := EnumValue(state)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
+	actual := EnumValue(state)
+
 	if actual != Off {
 		t.Errorf("Expected Off, got %v", actual)
 	}

@@ -9,7 +9,7 @@ import (
 
 func TestInitLightOverview(t *testing.T) {
 	lights := []models.Light{
-		{"1", light_state.On, "Light", 100},
+		{"1", light_state.On, "Light", 100, nil, nil},
 	}
 
 	overview := InitLightOverview(lights)

@@ -19,7 +19,7 @@ func TestNewBrightnessPanel(t *testing.T) {
 		t.Fatalf("InitializeNewBrightnessPanel() returned nil")
 	}
 
-	if !reflect.DeepEqual(&light, panel.light) {
+	if !reflect.DeepEqual(&light, panel.Light) {
 		t.Errorf("InitializeNewBrightnessPanel() = %v, want %v", panel, light)
 	}
 
